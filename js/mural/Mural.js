@@ -19,6 +19,12 @@ const Mural = (function(_render, Filtro){
     }
 
     function preparaCartao(cartao) {
+        const urlsImagens = Cartao.pegaImagens(cartao);
+        urlsImagens.forEach(url => fetch(url, {mode: 'no-cors'})
+            .then(resposta => caches.open("ceep-imagens")
+                .then(cache => cache.put(url, resposta))
+            )
+        );
             cartao.on("mudanca.**", () => {
                 putCartds();
                 render();
